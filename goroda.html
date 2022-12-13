@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+	</head>
+	<body>
+		<input id="field">
+        <div id="message"><span id="span"></span></div>
+		<script>
+			"use strict";
+            let i = 0;
+            let cities = ["А"];
+            let allCities = ["Воронеж", "Новосибирск", "Москва", "Санкт-Петербург", "Омск", "Новокузнецк", "Каменогорск", "Вологда", "Сочи", "Калининград", "Казань", "Нижний Новгород", "Екатеринбург", "Владимир", "Иркутск", "Архангельск", "Ярославль", "Красноярск", "Псков", "Куйбышев", "Тула", "Ростов-на-Дону", "Волгоград", "Кострома", "Владивосток", "Самара", "Суздаль", "Мурманск", "Чебоксары", "Смоленск", "Киров", "Астрахань", "Томск", "Краснодар", "Тюмень", "Кемерово", "Оренбург", "Ульяновск", "Пенза", "Липецк", "Абакан", "Уфа", "Хабаровск", "Ставрополь", "Нальчик", "Анапа", "Новокуйбышевск", "Бердск", "Кёльн", "Искитим", "Анадырь", "Ханты-Мансийск", "Ноябрьк", "Надым", "Ухта", "Варшава", "Йошкар-Ола", "Березник", "Петрозаводск", "Киев", "Гамбург", "Шахты", "Донецк", "Луганск", "Ташкент", "Караганда", "Астана", "Алматы", "Рим", "Рубцовск", "Бийск", "Канск", "Зима", "Братск", "Улан-Удэ"];
+            let span = document.querySelector('#span');
+            let field = document.querySelector('#field');
+            let message = document.querySelector('#message');
+            field.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    let rob;
+                    let val = field.value;
+                    field.value = '';
+                    if(cities[cities.length - 1].slice(-1).toLowerCase() == "ь" || cities[cities.length - 1].slice(-1).toLowerCase() == "ы" || cities[cities.length - 1].slice(-1).toLowerCase() == "ъ"){
+                        cities[cities.length - 1] = cities[cities.length - 1].slice(0, -1).toLowerCase()
+                    }
+                    if(cities[cities.length - 1].slice(-1).toLowerCase() == val[0].toLowerCase()){
+                        let marker = 0;
+                        let m = 0;
+                        for(let i = 0; i<cities.length; i++){
+                            if (cities[i] == val){
+                                console.log(1);
+                                marker = 1;
+                            }
+                        }
+                        for(let j = 0; j<allCities.length; j++){
+                            if(allCities[j] == val){
+                                console.log(2);
+                                m = 1;
+                            }
+                        }
+                        if(m == 0 || marker == 1){
+                            if(marker == 1)
+                                span.innerHTML = "Такой город уже называли";
+                            if(m == 0)
+                                span.innerHTML = "Такого города не существует";
+                        }
+                        else{
+                            cities.push(val);
+                            for(let ii = 0; ii<allCities.length; ii++){
+                                if(val.slice(-1).toLowerCase() == "ь" || val.slice(-1).toLowerCase() == "ъ" || val.slice(-1).toLowerCase() == "ы"){
+                                    val = val.slice(0, -1).toLowerCase()
+                                }
+                                if(allCities[ii][0].toLowerCase() == val.slice(-1).toLowerCase()){
+                                    for(let j = 0; j<cities.length; j++){
+                                        if(cities[j] != allCities[ii]){
+                                            rob = ii;
+                                        }
+                                    }
+                                }
+                            }
+                            if(rob != ''){
+                                cities.push(allCities[rob]);
+                                span.innerHTML = allCities[rob];
+                                allCities.splice(rob, 1);
+                            }
+                        }
+                    }
+                    else{
+                        span.innerHTML = "Перавя буква этого города не совпадает с последней буквой прошлого";
+                    }
+                }
+            });
+		</script>
+	</body>
+</html>
